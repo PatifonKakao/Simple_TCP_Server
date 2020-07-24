@@ -1,24 +1,23 @@
 # Simple TCP Server
-Простой многопоточный кроссплатформенный TCP Сервер
+РџСЂРѕСЃС‚РѕР№ РјРЅРѕРіРѕРїРѕС‚РѕС‡РЅС‹Р№ РєСЂРѕСЃСЃРїР»Р°С‚С„РѕСЂРјРµРЅРЅС‹Р№ TCP РЎРµСЂРІРµСЂ
 
-# Требования 
+# РўСЂРµР±РѕРІР°РЅРёСЏ
 
 * Git
 * CMake
 
-# Сборка
+# РЎР±РѕСЂРєР°
 
 ```shell
-
 git clone https://github.com/PatifonKakao/Simple_TCP_Server 
 cd Simple_TCP_Server
 ```
 
 ## Windows (Visual Studio)
-* Измените версию Visual Studio в vs.bat
-* Запустите vs.bat
-* Соберите решение
-* Назначьте запускаемые проекты: server_start и client_start. Или запустите их из папки ..\output_64\bin\Debug\
+* РР·РјРµРЅРёС‚Рµ РІРµСЂСЃРёСЋ Visual Studio РІ vs.bat
+* Р—Р°РїСѓСЃС‚РёС‚Рµ vs.bat
+* РЎРѕР±РµСЂРёС‚Рµ СЂРµС€РµРЅРёРµ
+* РќР°Р·РЅР°С‡СЊС‚Рµ Р·Р°РїСѓСЃРєР°РµРјС‹Рµ РїСЂРѕРµРєС‚С‹: server_start Рё client_start. РР»Рё Р·Р°РїСѓСЃС‚РёС‚Рµ РёС… РёР· РїР°РїРєРё ..\output_64\bin\Debug\
 
 ## Linux
 
@@ -30,4 +29,7 @@ cd build
 
 cmake ..
 make
+
+gnome-terminal -e './bin/server_start'
+gnome-terminal -e './bin/client_start'
 ```
