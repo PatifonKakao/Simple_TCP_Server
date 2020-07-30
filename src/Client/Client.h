@@ -45,12 +45,12 @@ public:
 	~Client();
 
 	int receive_data(std::mutex &printer_mtx);
-	const char* get_receive_data()const { return received_data.data(); }
+	const char* get_receive_data() const { return received_data.data(); }
 	size_t get_size_data() const { return received_data.size(); }
 
 	int send_data(const char* buffer, const int length);
 
-	int get_current_status() const{ return current_status; }
+	int get_current_status() const { return current_status; }
 	int get_last_error() const { return last_error; }
 
 	int get_id() const { return id; }
@@ -62,15 +62,15 @@ private:
 	status current_status = disconnected;
 	int last_error;
 
-#ifdef _WIN32 // Windows
+	#ifdef _WIN32 // Windows
 	SOCKET client_socket;
-#else // *nix
+	#else // *nix
 	int client_socket;
-#endif
+	#endif
 
     struct sockaddr_in destination_address;
 
-	std::vector<uint8_t> get_BER_size(const char* var, const size_t var_size);
+	std::vector<uint8_t> get_BER_size(const size_t var_size);
 	std::vector<char> received_data;
 
 	static int count_id;

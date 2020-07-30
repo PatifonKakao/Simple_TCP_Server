@@ -29,9 +29,10 @@
 #include <iostream>
 
 
-
-class Client;
-
+namespace 
+{
+	class Client;
+}
 
 class Server 
 {
@@ -76,7 +77,7 @@ private:
 
 	uint16_t port;
 
-	std::vector<uint8_t> get_BER_size(const char* var, const size_t var_size);
+	std::vector<uint8_t> get_BER_size(const size_t var_size);
 
 	#ifdef _WIN32 // Windows
 	SOCKET server_socket;
@@ -99,53 +100,52 @@ private:
 
 	std::queue<uint16_t> que_delet_clients;
 	
-	
-
 };
 
 
-class Client
-{
-public:
-    #ifdef _WIN32 // Windows
-	Client(const SOCKET socket, const sockaddr_in address);
-	SOCKET get_socket() const;
-	#else // *nix
-    Client(const int socket, const sockaddr_in address);
-	int get_socket() const;
-	#endif
-	~Client();
+namespace {
+	class Client
+	{
+	public:
+		#ifdef _WIN32 // Windows
+		Client(const SOCKET socket, const sockaddr_in address);
+		SOCKET get_socket() const;
+		#else // *nix
+		Client(const int socket, const sockaddr_in address);
+		int get_socket() const;
+		#endif
+		~Client();
 
-	sockaddr_in get_address() const;
+		sockaddr_in get_address() const;
 
-	void receive_data(Server & server);
+		void receive_data(Server & server);
 
-	uint32_t get_ip() const;
-	uint16_t get_port() const;
+		uint32_t get_ip() const;
+		uint16_t get_port() const;
 
-	uint16_t get_id() const;
-	std::string get_clinen_info_str();
+		uint16_t get_id() const;
+		std::string get_clinen_info_str();
 
-	void client_join();
+		void client_join();
 
-	std::vector<char> received_data;
-private:
+		std::vector<char> received_data;
+	private:
 
-	static const uint16_t CLIENT_BUFFER_SIZE = 1024;
-	char buffer[CLIENT_BUFFER_SIZE];
+		static const uint16_t CLIENT_BUFFER_SIZE = 1024;
+		char buffer[CLIENT_BUFFER_SIZE];
 
-	#ifdef _WIN32 // Windows
-	SOCKET socket;
-	#else // *nix
-	int socket;
-	#endif
+		#ifdef _WIN32 // Windows
+		SOCKET socket;
+		#else // *nix
+		int socket;
+		#endif
 
-	sockaddr_in address;
+		sockaddr_in address;
 
-	std::thread rx_client_thred;
+		std::thread rx_client_thred;
 
-	int recv_from();
-	static uint16_t count_id;
-	int id;
-};
-
+		int recv_from();
+		static uint16_t count_id;
+		int id;
+	};
+}

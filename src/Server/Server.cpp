@@ -139,7 +139,7 @@ void Server::disconnect_loop_master()
 	}
 }
 
-std::vector<uint8_t> Server::get_BER_size(const char* var, const size_t var_size)
+std::vector<uint8_t> Server::get_BER_size(const size_t var_size)
 {
 	std::vector<uint8_t> size;
 	if (var_size < 128)
@@ -160,8 +160,8 @@ std::vector<uint8_t> Server::get_BER_size(const char* var, const size_t var_size
 
 		} while (current_byte > 0);
 
+		size.resize(count);
 		--count;
-		size.resize(count + 1);
 		size[0] = 0b10000000 + count;
 		int j = 1;
 		for (int i = buff.size() - 1; i >= 0; --i)
@@ -172,6 +172,7 @@ std::vector<uint8_t> Server::get_BER_size(const char* var, const size_t var_size
 	return size;
 }
 
+
 #ifdef _WIN32 // Windows
 int Server::send_to(const SOCKET client_socket, const char * buf, const int length)
 #else 
@@ -179,7 +180,7 @@ int Server::send_to(const SOCKET client_socket, const char * buf, const int leng
 int Server::send_to(const int client_socket, const char * buf, const int length)
 #endif
 {
-	std::vector<uint8_t> msg = get_BER_size(buf, (size_t)length);
+	std::vector<uint8_t> msg = get_BER_size((size_t)length);
 	std::vector<uint8_t> data(buf, buf + length);
 	msg.insert(msg.end(), data.begin(), data.end());
 
@@ -293,7 +294,7 @@ int Client::recv_from()
 		uint8_t j = 0;
 		for (int i = count; i > 0 ; --i)
 		{
-			size_msg |= (buffer[i] & t) << j++;
+			size_msg |= (buffer[i] & t) << (8*j++);
 		}
 		received_data.resize(0);
 		received_data.insert(received_data.begin(), (buffer + 1 + count), (buffer + 1 + count + size_msg));

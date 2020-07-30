@@ -31,7 +31,7 @@ int main(int argc, char* argv[])
 	clients.resize(cout_clients);
 	
 	std::default_random_engine rng(std::random_device{}());
-	std::uniform_int_distribution<int> dist(1, 180);  
+	std::uniform_int_distribution<int> dist(1, 1000);  
 
 	for (auto i = 0; i < cout_clients; ++i)
 	{
@@ -59,9 +59,10 @@ int main(int argc, char* argv[])
 			{
 				std::string str = "msg " + std::to_string(j++);
 				int r = dist(rng);
-				std::string add(r, ' ');
-				add += '|';
+				std::string add(r, '_');
+				add += "| size = ";
 				str.insert(str.size(), add);
+				str.insert(str.size(), std::to_string(str.size() + (std::to_string(str.size())).size()));
 				clients.at(i)->send_data(str.data(), str.size());
 				std::this_thread::sleep_for(std::chrono::milliseconds(300+r*10));
 			}

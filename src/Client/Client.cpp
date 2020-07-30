@@ -63,7 +63,7 @@ Client::Client(uint32_t ip_host, uint16_t port)
 }
 
 
-std::vector<uint8_t> Client::get_BER_size(const char* var, const size_t var_size)
+std::vector<uint8_t> Client::get_BER_size(const size_t var_size)
 {
 	std::vector<uint8_t> size;
 	if (var_size < 128)
@@ -84,8 +84,8 @@ std::vector<uint8_t> Client::get_BER_size(const char* var, const size_t var_size
 
 		} while (current_byte > 0);
 
+		size.resize(count);
 		--count;
-		size.resize(count + 1);
 		size[0] = 0b10000000 + count;
 		int j = 1;
 		for (int i = buff.size() - 1; i >= 0; --i)
@@ -135,7 +135,7 @@ int Client::receive_data(std::mutex &printer_mtx)
 
 int Client::send_data(const char* buffer, const int length)
 {
-	std::vector<uint8_t> msg = get_BER_size(buffer, (size_t)length);
+	std::vector<uint8_t> msg = get_BER_size((size_t)length);
 	std::vector<uint8_t> data(buffer, buffer + length);
 	msg.insert(msg.end(), data.begin(), data.end());
 
