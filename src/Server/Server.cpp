@@ -294,7 +294,7 @@ int Client::recv_from()
 		uint8_t j = 0;
 		for (int i = count; i > 0 ; --i)
 		{
-			size_msg |= (buffer[i] & t) << (8*j++);
+			size_msg |= (buffer[i] & t) << (8 * j++);
 		}
 		received_data.resize(0);
 		received_data.insert(received_data.begin(), (buffer + 1 + count), (buffer + 1 + count + size_msg));
